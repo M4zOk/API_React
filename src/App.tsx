@@ -1,25 +1,30 @@
-import React from 'react';
+import React, {FormEvent, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
+
 function App() {
+  const [id, setId] = useState("");
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
+    const data = await response.json()
+    console.log(data);
+  };
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <form onSubmit={onSubmit}>
+      <h1>
+        ID:<input value={id} onChange={e => setId(e.target.value)}/>
+      </h1>
+
+      <button>Получить данные!</button>
+      </form>
+
   );
 }
 
